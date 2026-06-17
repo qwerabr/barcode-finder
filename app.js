@@ -1,5 +1,6 @@
 let registry;
 let database = [];
+let scanLocked = false;
 
 function normalizeBarcode(value) {
 
@@ -232,50 +233,71 @@ function showResults(found) {
 
 }
 
-function startScanner() {
+async function startScanner() {
 
-  const scanner =
-    new Html5QrcodeScanner(
-      "reader",
+  const html5QrCode =
+    new Html5Qrcode("reader");
+
+  try {
+
+    await html5QrCode.start(
+
+      { facingMode: "environment" },
+
       {
         fps: 5,
-        qrbox: 250,
-        rememberLastUsedCamera: true
+        qrbox: {
+          width: 250,
+          height: 250
+        }
+      },
+
+      function(code) {
+
+        if (scanLocked) {
+          return;
+        }
+
+        scanLocked = true;
+
+        setTimeout(() => {
+          scanLocked = false;
+        }, 2000);
+
+        saveHistory(code);
+
+        const found =
+          searchBarcode(code);
+
+        showResults(found);
+
+        if (
+          found.length &&
+          navigator.vibrate
+        ) {
+          navigator.vibrate(100);
+        }
+
+      },
+
+      function(errorMessage) {
+        // Игнорируем ошибки распознавания
       }
+
     );
 
-  scanner.render(
+  } catch(err) {
 
-    function(code) {
+    console.error(
+      "Camera error:",
+      err
+    );
 
-      saveHistory(code);
+    document.getElementById("status")
+      .innerText =
+      "Не удалось открыть камеру";
 
-      const found =
-        searchBarcode(code);
-
-      showResults(found);
-
-      if (
-        found.length &&
-        navigator.vibrate
-      ) {
-
-        navigator.vibrate(100);
-
-      }
-
-    },
-
-    function() {}
-
-  );
-
-}
-
-if ("serviceWorker" in navigator) {
-
-  navigator.serviceWorker
-    .register("sw.js");
+  }
 
 }
 
