@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>Barcode Finder</title>
+
+  <button id="reloadBtn">
+🔄 Обновить данные
+</button>
+
+<div id="status"></div>
+
+<link rel="manifest" href="manifest.json">
+
+<script src="https://unpkg.com/html5-qrcode"></script>
+
+<style>
+
+#reloadBtn{
+  padding:10px 15px;
+  font-size:16px;
+  margin-bottom:10px;
+}
+
+#status{
+  margin:10px 0;
+  color:#1976d2;
+  font-size:14px;
+}
+  
+body{
+font-family:Arial;
+margin:10px;
+}
+
+#reader{
+width:100%;
+max-width:400px;
+margin:auto;
+}
+
+.result{
+padding:10px;
+margin:10px 0;
+border:1px solid #ccc;
+border-radius:8px;
+}
+
+.history{
+font-size:14px;
+color:#666;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h2>Barcode Finder</h2>
+
+<div id="reader"></div>
+
+<h3>Результат</h3>
+
+<div id="results"></div>
+
+<h3>Последние сканирования</h3>
+
+<div id="history"></div>
+
+<script src="app.js"></script>
+
+</body>
+</html>
