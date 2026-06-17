@@ -51,16 +51,8 @@ document.getElementById("status")
 
 async function loadSheet(table) {
 
-const url =
-`https://docs.google.com/spreadsheets/d/${table.sheetId}/gviz/tq?tqx=out:json&v=${Date.now()}`;
-
-...
-}
-
-async function loadSheet(table) {
-
   const url =
-    `https://docs.google.com/spreadsheets/d/${table.sheetId}/gviz/tq?tqx=out:json`;
+   `https://docs.google.com/spreadsheets/d/${table.sheetId}/gviz/tq?tqx=out:json&v=${Date.now()}`;
 
   try {
 
